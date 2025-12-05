@@ -1,0 +1,61 @@
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+from typing import List
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from rag_service import ingest_document, analyze_document
+
+app = FastAPI(title="BlackLetter API", description="The High-Stakes Legal Auditor API")
+
+# CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # For development
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class AuditRequest(BaseModel):
+    doc_id: str
+    checklist: List[str] = [
+        "Does this contract allow for unlimited liability?",
+        "Is there a hidden arbitration clause?",
+        "Does this violate GDPR data retention rules?",
+        "Is there a termination for convenience clause?",
+        "Are there any indemnification obligations?"
+    ]
+
+@app.post("/upload")
+async def upload_document(file: UploadFile = File(...)):
+    """
+    Uploads a PDF file and processes it for RAG.
+    """
+    if not file.filename.endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Only PDF files are supported.")
+    
+    try:
+        doc_id = await ingest_document(file)
+        return {"doc_id": doc_id, "message": "Document processed successfully."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/audit")
+async def audit_document(request: AuditRequest):
+    """
+    Audits a document against a checklist.
+    """
+    try:
+        report = analyze_document(request.doc_id, request.checklist)
+        return report
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)
