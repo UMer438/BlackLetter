@@ -74,7 +74,7 @@ export function AuditorPanel({
     };
 
     return (
-        <div className="w-full md:w-96 bg-white border-l border-gray-200 h-screen flex flex-col shadow-xl z-20 transition-all duration-300">
+        <div className="w-full md:w-96 bg-white border-l border-gray-200 h-screen flex flex-col shadow-xl z-20 transition-all duration-300 pb-20 md:pb-0">
             {/* Header */}
             <div className="p-6 border-b border-gray-100 bg-white">
                 <div className="flex items-center justify-between mb-4">

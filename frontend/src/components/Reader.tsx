@@ -15,7 +15,7 @@ export function Reader({ text }: ReaderProps) {
     // In production, this would be a sophisticated PDF viewer or rich text editor
 
     return (
-        <div className="flex-1 h-screen overflow-y-auto bg-[#F1F5F9] p-8 relative" ref={containerRef}>
+        <div className="flex-1 h-screen overflow-y-auto bg-[#F1F5F9] p-8 md:p-8 pb-20 md:pb-0 relative" ref={containerRef}>
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#64748b 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
 

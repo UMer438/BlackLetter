@@ -31,14 +31,22 @@ if os.path.exists("/app/static"):
     
     @app.get("/")
     async def read_index():
-        return FileResponse("/app/static/index.html")
+        response = FileResponse("/app/static/index.html")
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
 
     # Catch-all for SPA routing
     @app.exception_handler(404)
     async def custom_404_handler(request, exc):
         if request.url.path.startswith("/api"):
             return {"detail": "Not Found"}
-        return FileResponse("/app/static/index.html")
+        response = FileResponse("/app/static/index.html")
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
 
 class AuditRequest(BaseModel):
     doc_id: str
