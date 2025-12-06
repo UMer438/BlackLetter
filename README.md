@@ -1,3 +1,12 @@
+---
+title: BlackLetter
+emoji: ⚖️
+colorFrom: gray
+colorTo: gray
+sdk: docker
+app_port: 7860
+---
+
 # BlackLetter - The High-Stakes Legal Auditor
 
 BlackLetter is an AI-powered legal compliance tool designed for high-stakes contract analysis. It uses a RAG (Retrieval-Augmented Generation) pipeline to audit PDF contracts against a strict checklist of risks.
