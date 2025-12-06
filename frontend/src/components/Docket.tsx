@@ -17,7 +17,7 @@ export function Docket({ onUpload, isUploading, uploadStatus, fileName }: Docket
     };
 
     return (
-        <div className="w-72 bg-[#0B1120] text-gray-300 h-screen flex flex-col border-r border-gray-800 shadow-2xl z-10">
+        <div className="w-full md:w-72 bg-[#0B1120] text-gray-300 h-screen flex flex-col border-r border-gray-800 shadow-2xl z-10 transition-all duration-300">
             <div className="p-8 border-b border-gray-800/50 bg-[#0B1120]">
                 <div className="flex items-center gap-3 mb-1">
                     <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">

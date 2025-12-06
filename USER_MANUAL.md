@@ -37,4 +37,9 @@ Think of it as a "Junior Associate" that never sleeps—it reads the contract, f
 *   Click the **Checklist** tab.
 *   **Add Item**: Type a new question (e.g., *"Is there a non-compete clause?"*) and press Enter or click Add.
 *   **Remove Item**: Click the trash icon next to any item you don't need.
-*   When you go back to the **Audit** tab and run the audit again, it will use your new custom list.
+
+### 5. Using on Mobile
+*   **Navigation**: The mobile app uses a bottom tab bar to switch between views.
+*   **Files Tab**: Upload and view your documents here.
+*   **Reader Tab**: View the "Sentences" / Active Document text and analysis highlights.
+*   **Audit Tab**: view the risk score and audit checklist results.

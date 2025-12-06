@@ -23,7 +23,7 @@ export function Reader({ text }: ReaderProps) {
                 {/* Header/Watermark */}
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 opacity-80"></div>
 
-                <div className="p-16">
+                <div className="p-6 md:p-16">
                     <div className="font-serif text-[17px] leading-[2.2] text-gray-800 whitespace-pre-wrap text-justify selection:bg-blue-100 selection:text-blue-900">
                         {text || (
                             <div className="flex flex-col items-center justify-center h-[600px] text-gray-400 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50">
