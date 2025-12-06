@@ -46,6 +46,17 @@ BlackLetter is an AI-powered legal compliance tool designed for high-stakes cont
     -   **Frontend**: [http://localhost:5173](http://localhost:5173)
     -   **Backend API Docs**: [http://localhost:8001/docs](http://localhost:8001/docs)
 
+## Deployment (Render)
+
+1.  **Fork/Clone** this repository to your GitHub.
+2.  **Sign up** for [Render](https://render.com).
+3.  **Create a New Blueprint Instance**.
+4.  **Connect your repository**.
+5.  Render will automatically detect `render.yaml`.
+6.  **Provide Environment Variables**:
+    -   `GROQ_API_KEY`: Your Groq API Key.
+7.  **Deploy**! Render will build and deploy both the backend and frontend.
+
 ## Manual Setup (Development)
 
 ### Backend

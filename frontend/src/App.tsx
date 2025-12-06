@@ -6,7 +6,8 @@ import { Reader } from './components/Reader';
 import { AuditorPanel } from './components/AuditorPanel';
 
 // API Configuration
-const API_URL = 'http://localhost:8001';
+// API Configuration
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001';
 
 interface Violation {
     checklist_item: string;

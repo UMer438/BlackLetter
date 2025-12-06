@@ -1,0 +1,26 @@
+services:
+  # Backend Service
+  - type: web
+    name: blackletter-backend
+    env: docker
+    rootDir: backend
+    plan: free
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: PORT
+        value: 8000
+
+  # Frontend Service
+  - type: static
+    name: blackletter-frontend
+    env: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: blackletter-backend
+          property: url
