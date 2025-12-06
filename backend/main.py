@@ -54,7 +54,11 @@ class ChatRequest(BaseModel):
     doc_id: str
     question: str
 
-@app.post("/upload")
+from fastapi import APIRouter
+
+api_router = APIRouter(prefix="/api")
+
+@api_router.post("/upload")
 async def upload_document(file: UploadFile = File(...)):
     """
     Uploads a PDF file and processes it for RAG.
@@ -68,7 +72,7 @@ async def upload_document(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/audit")
+@api_router.post("/audit")
 async def audit_document(request: AuditRequest):
     """
     Audits a document against a checklist.
@@ -79,12 +83,7 @@ async def audit_document(request: AuditRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-class ChatRequest(BaseModel):
-    doc_id: str
-    question: str
-
-@app.post("/chat")
+@api_router.post("/chat")
 async def chat(request: ChatRequest):
     """
     Answers a question about the document.
@@ -94,6 +93,8 @@ async def chat(request: ChatRequest):
         return {"answer": answer}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+app.include_router(api_router)
 
 if __name__ == "__main__":
     import uvicorn
