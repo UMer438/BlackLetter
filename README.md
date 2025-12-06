@@ -78,7 +78,24 @@ To avoid using Blueprints (which may require a credit card), you can deploy serv
     -   `VITE_API_URL`: Paste your **Backend URL** here.
 5.  **Deploy**.
 
-Your app is now live!
+### 3. Option: Deploy via Docker Image (What you saw in the screenshot)
+If you prefer to deploy a pre-built image:
+
+1.  **Build and Push** your backend image to Docker Hub:
+    ```bash
+    # Login to Docker Hub
+    docker login
+
+    # Build the image (replace 'your-username' with your Docker Hub username)
+    docker build -t your-username/blackletter-backend:latest ./backend
+
+    # Push the image
+    docker push your-username/blackletter-backend:latest
+    ```
+2.  On Render, select **New Web Service** -> **Existing Image**.
+3.  Enter your image URL: `docker.io/your-username/blackletter-backend:latest`.
+4.  Set environment variables (`GROQ_API_KEY`, `PORT`).
+5.  Deploy!
 
 ## Manual Setup (Development)
 
