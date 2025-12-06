@@ -5,7 +5,7 @@ COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ .
 # Set API URL to relative path since we'll serve from same origin
-ENV VITE_API_URL=/api
+# ENV VITE_API_URL=/api - Removed as App.tsx now handles the /api prefix manually
 RUN npm run build
 
 # Stage 2: Build Backend & Serve
