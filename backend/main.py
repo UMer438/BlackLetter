@@ -8,7 +8,7 @@ from typing import List
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from rag_service import ingest_document, analyze_document
+from rag_service import ingest_document, analyze_document, chat_with_document
 
 app = FastAPI(title="BlackLetter API", description="The High-Stakes Legal Auditor API")
 
@@ -30,6 +30,10 @@ class AuditRequest(BaseModel):
         "Is there a termination for convenience clause?",
         "Are there any indemnification obligations?"
     ]
+
+class ChatRequest(BaseModel):
+    doc_id: str
+    question: str
 
 @app.post("/upload")
 async def upload_document(file: UploadFile = File(...)):
@@ -53,6 +57,22 @@ async def audit_document(request: AuditRequest):
     try:
         report = analyze_document(request.doc_id, request.checklist)
         return report
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+class ChatRequest(BaseModel):
+    doc_id: str
+    question: str
+
+@app.post("/chat")
+async def chat(request: ChatRequest):
+    """
+    Answers a question about the document.
+    """
+    try:
+        answer = chat_with_document(request.doc_id, request.question)
+        return {"answer": answer}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

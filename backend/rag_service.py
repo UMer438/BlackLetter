@@ -107,7 +107,11 @@ def analyze_document(doc_id: str, checklist: List[str]) -> Dict[str, Any]:
             If the context contains a risky clause or violation regarding the checklist item, cite the exact text and explain why.
             If no risk is found, return a risk score of 0 and empty list.
             
-            Output purely in JSON format matching this structure:
+            If no risk is found, return a risk score of 0 and empty list.
+            
+            Output ONLY the JSON object. Do not include any conversational text, markdown formatting, or explanations outside the JSON.
+            
+            JSON Structure:
             {{
                 "risk_score": <int 0-100>,
                 "red_flagged_clauses": [
@@ -134,12 +138,59 @@ def analyze_document(doc_id: str, checklist: List[str]) -> Dict[str, Any]:
                         "clause_text": clause["clause_text"],
                         "explanation": clause["explanation"]
                     })
+            else:
+                results["violations"].append({
+                    "checklist_item": item,
+                    "risk_score": 0,
+                    "clause_text": "",
+                    "explanation": "No violation detected."
+                })
                     
         except Exception as e:
             print(f"Error analyzing item '{item}': {e}")
+            results["violations"].append({
+                "checklist_item": item,
+                "risk_score": 0,
+                "clause_text": "Error",
+                "explanation": "Analysis failed. Please try again."
+            })
             
     # Normalize overall risk score (simple average for now, capped at 100)
     if checklist:
         results["overall_risk_score"] = min(100, total_risk // len(checklist))
         
     return results
+
+def chat_with_document(doc_id: str, question: str) -> str:
+    """
+    Answers a question about the document using RAG.
+    """
+    # Retrieve relevant chunks
+    retriever = vector_store.as_retriever(
+        search_type="similarity",
+        search_kwargs={"k": 5, "filter": {"doc_id": doc_id}}
+    )
+    relevant_docs = retriever.invoke(question)
+    context = "\n\n".join([doc.page_content for doc in relevant_docs])
+    
+    # Generate Answer
+    prompt = ChatPromptTemplate.from_template(
+        """
+        You are a helpful legal assistant. Answer the user's question based strictly on the provided context.
+        
+        Context:
+        {context}
+        
+        Question: {question}
+        
+        Answer:
+        """
+    )
+    
+    chain = prompt | llm
+    
+    try:
+        response = chain.invoke({"question": question, "context": context})
+        return response.content
+    except Exception as e:
+        return f"Error generating answer: {str(e)}"

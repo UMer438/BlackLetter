@@ -8,6 +8,8 @@ BlackLetter is an AI-powered legal compliance tool designed for high-stakes cont
 -   **RAG Pipeline**: Ingests PDFs, chunks text, and retrieves relevant context using ChromaDB.
 -   **Premium UI**: A "White-Shoe Firm" aesthetic with a realistic document reader and interactive risk dashboard.
 -   **Risk Scoring**: Calculates a risk score (0-100) and highlights specific violations with explanations.
+-   **Chat with Document**: Ask ad-hoc questions about the contract in natural language.
+-   **Editable Checklist**: Customize the audit criteria to focus on specific risks.
 
 ## Tech Stack
 

@@ -26,6 +26,14 @@ function App() {
     const [report, setReport] = useState<AuditReport | null>(null);
     const [activeViolation, setActiveViolation] = useState<Violation | null>(null);
 
+    const [checklist, setChecklist] = useState<string[]>([
+        "Does this contract allow for unlimited liability?",
+        "Is there a hidden arbitration clause?",
+        "Does this violate GDPR data retention rules?",
+        "Is there a termination for convenience clause?",
+        "Are there any indemnification obligations?"
+    ]);
+
     // Upload Mutation
     const uploadMutation = useMutation({
         mutationFn: async (file: File) => {
@@ -47,19 +55,24 @@ function App() {
         mutationFn: async (documentId: string) => {
             const res = await axios.post(`${API_URL}/audit`, {
                 doc_id: documentId,
-                checklist: [
-                    "Does this contract allow for unlimited liability?",
-                    "Is there a hidden arbitration clause?",
-                    "Does this violate GDPR data retention rules?",
-                    "Is there a termination for convenience clause?",
-                    "Are there any indemnification obligations?"
-                ]
+                checklist: checklist
             });
             return res.data;
         },
         onSuccess: (data) => {
             setReport(data);
         },
+    });
+
+    // Chat Mutation
+    const chatMutation = useMutation({
+        mutationFn: async (question: string) => {
+            const res = await axios.post(`${API_URL}/chat`, {
+                doc_id: docId,
+                question: question
+            });
+            return res.data.answer;
+        }
     });
 
     const handleViolationClick = (violation: Violation) => {
@@ -90,6 +103,10 @@ function App() {
                 isAuditing={auditMutation.isPending}
                 onRunAudit={() => docId && auditMutation.mutate(docId)}
                 canAudit={!!docId}
+                checklist={checklist}
+                onUpdateChecklist={setChecklist}
+                onChat={chatMutation.mutateAsync}
+                isChatting={chatMutation.isPending}
             />
         </div>
     );
