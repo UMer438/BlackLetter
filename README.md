@@ -46,16 +46,39 @@ BlackLetter is an AI-powered legal compliance tool designed for high-stakes cont
     -   **Frontend**: [http://localhost:5173](http://localhost:5173)
     -   **Backend API Docs**: [http://localhost:8001/docs](http://localhost:8001/docs)
 
-## Deployment (Render)
+## Deployment (Render - Free Tier Manual Setup)
 
-1.  **Fork/Clone** this repository to your GitHub.
-2.  **Sign up** for [Render](https://render.com).
-3.  **Create a New Blueprint Instance**.
-4.  **Connect your repository**.
-5.  Render will automatically detect `render.yaml`.
-6.  **Provide Environment Variables**:
+To avoid using Blueprints (which may require a credit card), you can deploy services manually:
+
+### 1. Deploy Backend (Web Service)
+1.  On Render Dashboard, click **New +** -> **Web Service**.
+2.  Connect your repository.
+3.  **Settings**:
+    -   **Name**: `blackletter-backend`
+    -   **Root Directory**: `backend`
+    -   **Runtime**: Docker
+    -   **Region**: (Choose closest to you)
+    -   **Instance Type**: Free
+4.  **Environment Variables**:
     -   `GROQ_API_KEY`: Your Groq API Key.
-7.  **Deploy**! Render will build and deploy both the backend and frontend.
+    -   `PORT`: `8000` (Optional, defaults to 8001 if not set, but good to be explicit).
+5.  **Deploy**.
+6.  **Copy the Backend URL** (e.g., `https://blackletter-backend.onrender.com`) once deployed.
+
+### 2. Deploy Frontend (Static Site)
+1.  On Render Dashboard, click **New +** -> **Static Site**.
+2.  Connect your repository.
+3.  **Settings**:
+    -   **Name**: `blackletter-frontend`
+    -   **Root Directory**: `frontend`
+    -   **Build Command**: `npm install && npm run build`
+    -   **Publish Directory**: `dist`
+    -   **Instance Type**: Free
+4.  **Environment Variables**:
+    -   `VITE_API_URL`: Paste your **Backend URL** here.
+5.  **Deploy**.
+
+Your app is now live!
 
 ## Manual Setup (Development)
 
