@@ -16,5 +16,5 @@ jobs:
           lfs: true
       - name: Push to hub
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://user:$HF_TOKEN@huggingface.co/spaces/Umer528/blackletter main
+          HF_TOKEN: ${{ secrets.Hf_Token }}
+        run: git push https://user:$HF_TOKEN@huggingface.co/spaces/Umer528/BlackLetter main
