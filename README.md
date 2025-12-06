@@ -95,7 +95,27 @@ If you prefer to deploy a pre-built image:
 2.  On Render, select **New Web Service** -> **Existing Image**.
 3.  Enter your image URL: `docker.io/your-username/blackletter-backend:latest`.
 4.  Set environment variables (`GROQ_API_KEY`, `PORT`).
-5.  Deploy!
+### 4. Option: Deploy to Hugging Face Spaces (Free & Easy)
+
+This method deploys both Backend and Frontend as a single app.
+
+1.  **Create a Space**:
+    -   Go to [huggingface.co/spaces](https://huggingface.co/spaces).
+    -   Create new Space -> Name: `blackletter`.
+    -   SDK: **Docker**.
+    -   Visibility: **Public**.
+
+2.  **Configure GitHub Sync**:
+    -   In your GitHub Repo, go to **Settings** -> **Secrets and variables** -> **Actions**.
+    -   New Repository Secret: `HF_TOKEN` (Get a Write token from [HF Settings](https://huggingface.co/settings/tokens)).
+    -   Edit `.github/workflows/sync_to_hub.yml` and replace `your-username` with your HF username.
+
+3.  **Push to GitHub**:
+    -   The Action will automatically sync your code to Hugging Face.
+    -   Hugging Face will build the Docker image (Frontend + Backend) and deploy it.
+
+4.  **Set Environment Variables on Hugging Face**:
+    -   In your Space Settings, add `GROQ_API_KEY`.
 
 ## Manual Setup (Development)
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AlertTriangle, CheckCircle2, MessageSquare, Settings, Plus, X, Send } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, MessageSquare, Plus, X, Send } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 interface Violation {

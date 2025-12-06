@@ -19,7 +19,27 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    allow_headers=["*"],
 )
+
+# Serve Static Files (Frontend)
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+# Check if static directory exists (Production)
+if os.path.exists("/app/static"):
+    app.mount("/assets", StaticFiles(directory="/app/static/assets"), name="assets")
+    
+    @app.get("/")
+    async def read_index():
+        return FileResponse("/app/static/index.html")
+
+    # Catch-all for SPA routing
+    @app.exception_handler(404)
+    async def custom_404_handler(request, exc):
+        if request.url.path.startswith("/api"):
+            return {"detail": "Not Found"}
+        return FileResponse("/app/static/index.html")
 
 class AuditRequest(BaseModel):
     doc_id: str
